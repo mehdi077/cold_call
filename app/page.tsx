@@ -1,10 +1,20 @@
-'use client';
-
 import { useState, useEffect } from 'react';
 import { useQuery } from 'convex/react';
 import { api } from '../convex/_generated/api';
 
 const statusOptions = ["none", "called", "no answer", "later"];
+
+interface Number {
+  _id: string;
+  name: string;
+  site: string;
+  category: string;
+  phone: number;
+  city: string;
+  location_link: string;
+  status: "none" | "called" | "no answer" | "later";
+  note?: string;
+}
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState(statusOptions[0]);
@@ -41,7 +51,7 @@ export default function Home() {
           <p>No data available for {activeTab} status.</p>
         ) : (
           <div className="grid gap-4 grid-cols-1">
-            {numbers.map((number: any) => (
+            {numbers.map((number: Number) => (
               <div key={number._id} className="bg-white rounded-md shadow-md p-4">
                 <h2 className="text-lg font-semibold">{number.name}</h2>
                 <p><strong>Site:</strong> {number.site ? <a href={number.site} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">{number.site}</a> : number.site}</p>
