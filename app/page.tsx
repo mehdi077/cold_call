@@ -1,10 +1,6 @@
-'use client';
-
 import { useState, useEffect } from 'react';
 import { useQuery } from 'convex/react';
 import { api } from '../convex/_generated/api';
-
-const statusOptions = ["none", "called", "no answer", "later"];
 
 interface Number {
   _id: string;
@@ -18,8 +14,10 @@ interface Number {
   note?: string;
 }
 
+const statusOptions: Number["status"][] = ["none", "called", "no answer", "later"];
+
 export default function Home() {
-  const [activeTab, setActiveTab] = useState(statusOptions[0]);
+  const [activeTab, setActiveTab] = useState<Number["status"]>(statusOptions[0]);
   const numbers = useQuery(api.data.getNumbersByStatus, { status: activeTab });
 
   useEffect(() => {
