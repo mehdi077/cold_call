@@ -94,8 +94,23 @@ export default function Home() {
                       Call
                     </button>
                   </div>
-                  <div className="flex flex-wrap gap-2 mt-2 text-sm">
+                  <div className="flex flex-wrap gap-2 mt-2 text-sm items-center">
                     <span><strong>Status:</strong> <span className={`px-2 py-1 rounded-lg ${number.status === 'called' ? 'bg-green-100 text-green-700' : number.status === 'no answer' ? 'bg-red-100 text-red-700' : number.status === 'later' ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-200 text-gray-700'}`}>{number.status}</span></span>
+                    <select
+                      className="ml-2 px-2 py-1 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={number.status}
+                      onChange={async (e) => {
+                        const newStatus = e.target.value as Number['status'];
+                        if (newStatus !== number.status) {
+                          await updateStatus({ documentId: number._id as Id<'numbers'>, status: newStatus });
+                          setRefetch(true);
+                        }
+                      }}
+                    >
+                      {statusOptions.map((option) => (
+                        <option key={option} value={option}>{option}</option>
+                      ))}
+                    </select>
                     {number.note && <span><strong>Note:</strong> <span className="italic text-gray-500">{number.note}</span></span>}
                   </div>
                 </div>
